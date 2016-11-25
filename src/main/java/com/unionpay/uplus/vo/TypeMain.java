@@ -14,15 +14,15 @@ public class TypeMain {
     /**
      * 活动
      */
-    public static final int activityType = 1;
+    public static final int activityType = 2;
 
     /**
      * 问答
      */
-    public static final int qaType = 1;
+    public static final int qaType = 3;
 
     /**
      * 博客
      */
-    public static final int blogType = 1;
+    public static final int blogType = 4;
 }
