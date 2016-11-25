@@ -37,8 +37,8 @@ public class CommentDao {
             + " LIMIT "
             + " ? , ? ";
     
-    private static final String SQL_ADD_COMMENTS = " insert into"
-    		+ "uplus_comments"
+    private static final String SQL_ADD_COMMENTS = " insert into "
+    		+ " uplus_comments "
     		+ "( id , "
             + "user_id , "
             + "comment , "
