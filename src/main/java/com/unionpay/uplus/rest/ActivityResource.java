@@ -135,11 +135,12 @@ public class ActivityResource {
         return res == true ? CodeVO.SUCCESS : CodeVO.ERROR;
     }
 
-    @POST
-    @Path("/activities/queryAct")
+    @GET
+    @Path("/{activityId}/registries")
     @Produces("application/json;charset=UTF-8")
-    public List<ActivityRegVO> queryActivity(@PathParam(value = "contentId") int contentId,@FormParam(value = "userId")int userId) {
-    	return actService.queryActivity(contentId, userId);
+    public List<ActivityRegVO> queryActivity(@PathParam(value = "activityId") int activityId
+            , @QueryParam(value = "userId")int userId) {
+    	return actService.queryActivity(activityId, userId);
     }
     
     @POST
