@@ -28,4 +28,14 @@ public class ContentServiceImpl implements ContentService {
     public int getContentsCount(int typeMain, int typeSub) {
         return contentDao.getContentsCount(typeMain, typeSub);
     }
+
+    @Override
+    public boolean createContent(ContentVO contentVO) {
+        return contentDao.createContent(contentVO);
+    }
+
+    @Override
+    public boolean praiseContent(int contentId) {
+        return contentDao.praiseContent(contentId);
+    }
 }

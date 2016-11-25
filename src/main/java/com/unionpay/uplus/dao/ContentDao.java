@@ -61,6 +61,37 @@ public class ContentDao {
             + " LIMIT "
             + " ? , ? ";
 
+    private static final String SQL_INSERT_CONTENT = "INSERT INTO uplus_content "
+            + "("
+            + "user_id, "
+            + "title, "
+            + "content, "
+            + "pics, "
+            + "praise_count, "
+            + "comments_count, "
+            + "vote_id, "
+            + "votes_count, "
+            + "type_main, "
+            + "type_sub, "
+            + "create_at, "
+            + "last_modified, "
+            + "status) "
+            + " VALUES "
+            + " (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?) ";
+
+    private static final String SQL_PRAISE_CONTENT = "UPDATE uplus_content "
+            + " SET "
+            + " praise_count=praise_count+1 "
+            + " WHERE "
+            + " id = ?";
+
+    private static final String SQL_COMMENT_CONTENT = "UPDATE uplus_content "
+            + " SET "
+            + " comments_count=comments_count+1 "
+            + " WHERE "
+            + " id = ?";
+
+
     private static final String SQL_COUNT_CONTENTS = "SELECT "
             + " COUNT(0) "
             + " FROM "
@@ -136,5 +167,71 @@ public class ContentDao {
         }
 
         return 0;
+    }
+
+    public boolean createContent(ContentVO contentVO) {
+        Connection co = DataSourceUtil.getConnection();
+
+        try {
+            PreparedStatement ps = co.prepareStatement(SQL_INSERT_CONTENT);
+            ps.setInt(1, contentVO.getUser().getUserId());
+            ps.setString(2, contentVO.getTitle());
+            ps.setString(3, contentVO.getContent());
+            ps.setString(4, PicsUtil.getPics(contentVO.getPicUrls()));
+            ps.setInt(5, 0);
+            ps.setInt(6, 0);
+            ps.setInt(7, 0);
+            ps.setInt(8, 0);
+            ps.setInt(9, contentVO.getTypeMain());
+            ps.setInt(10, contentVO.getTypeSub());
+            ps.setLong(11, System.currentTimeMillis()/1000);
+            ps.setLong(12, System.currentTimeMillis()/1000);
+            ps.setInt(13, 1);
+
+            boolean rs = ps.execute();
+
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean praiseContent(int contentId) {
+        Connection co = DataSourceUtil.getConnection();
+
+        try {
+            PreparedStatement ps = co.prepareStatement(SQL_PRAISE_CONTENT);
+            ps.setInt(1, contentId);
+
+            boolean rs = ps.execute();
+
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean commentContent(int contentId) {
+        Connection co = DataSourceUtil.getConnection();
+
+        try {
+            PreparedStatement ps = co.prepareStatement(SQL_COMMENT_CONTENT);
+            ps.setInt(1, contentId);
+
+            boolean rs = ps.execute();
+
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }

@@ -25,4 +25,20 @@ public class PicsUtil {
 
         return picList;
     }
+
+    public static String getPics(List<String> picList) {
+        String pics = "";
+
+        if(picList == null || picList.size() == 0) {
+            return pics;
+        }
+
+        for(String pic : picList) {
+            pics += pic + ",";
+        }
+
+        pics.substring(0, pics.length()-1);
+
+        return pics;
+    }
 }
