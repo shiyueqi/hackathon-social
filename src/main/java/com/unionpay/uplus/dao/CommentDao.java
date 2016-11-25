@@ -37,14 +37,14 @@ public class CommentDao {
             + " LIMIT "
             + " ? , ? ";
     
-    private static final String SQL_ADD_COMMENTS = " insert into"
-    		+ "uplus_comments"
+    private static final String SQL_ADD_COMMENTS = " insert into "
+    		+ " uplus_comments "
     		+ "( id , "
             + "user_id , "
             + "comment , "
             + "content_id , "
             + "refer_id , "
-            + "refer_user_id ?, "
+            + "refer_user_id , "
             + "refer_user_name , "
             + "create_at , "
             + "last_modified , "
@@ -52,6 +52,13 @@ public class CommentDao {
             + "praise_count "
             + " ) values ("
             + "?,?,?,?,?,?,?,?,?,?,? )";
+    
+    private static final String SQL_COUNT_COMMENTS = "SELECT "
+            + " COUNT(0) "
+            + " FROM "
+            + " uplus_comments "
+            + " WHERE "
+            + " content_id=? ";
     
     public void addComments(CommentVO commentVo) {
     	Connection co = DataSourceUtil.getConnection();
@@ -113,5 +120,28 @@ public class CommentDao {
         }
 
         return new ArrayList<CommentVO>();
+    }
+    
+    public int getCommentsCount(int contentId) {
+        Connection co = DataSourceUtil.getConnection();
+
+        try {
+            PreparedStatement ps = co.prepareStatement(SQL_COUNT_COMMENTS);
+            ps.setInt(1, contentId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                int commentsCount = rs.getInt(1);
+
+                return commentsCount;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 }
