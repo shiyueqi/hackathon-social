@@ -9,22 +9,22 @@ public class CommentVO {
 	int id;
 	int userId;
 	String comment;
-	String contentId;
-	String referId;
+	int contentId;
+	int referId;
 	int referUserId;
 	String referUserName;
 	long createAt;
 	long lastModified;
 	// boolean praised;
-	String status;
-	// int praiseCount;
+	int status;
+	int praiseCount;
 	// Set<String> praiseUids;
 
-	public String getContentId() {
+	public int getContentId() {
 		return contentId;
 	}
 
-	public void setContentId(String contentId) {
+	public void setContentId(int contentId) {
 		this.contentId = contentId;
 	}
 
@@ -36,19 +36,19 @@ public class CommentVO {
 		this.referUserId = referUserId;
 	}
 
-	public String getCommentId() {
+	public int getCommentId() {
 		return contentId;
 	}
 
-	public void setCommentId(String commentId) {
+	public void setCommentId(int commentId) {
 		this.contentId = commentId;
 	}
 
-	public String getReferId() {
+	public int getReferId() {
 		return referId;
 	}
 
-	public void setReferId(String referId) {
+	public void setReferId(int referId) {
 		this.referId = referId;
 	}
 
@@ -84,21 +84,21 @@ public class CommentVO {
 	// this.praised = praised;
 	// }
 
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
-	// public int getPraiseCount() {
-	// return praiseCount;
-	// }
-	//
-	// public void setPraiseCount(int praiseCount) {
-	// this.praiseCount = praiseCount;
-	// }
+	 public int getPraiseCount() {
+	 return praiseCount;
+	 }
+	
+	 public void setPraiseCount(int praiseCount) {
+	 this.praiseCount = praiseCount;
+	 }
 	//
 	// public Set<String> getPraiseUids() {
 	// return praiseUids;

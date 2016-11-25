@@ -13,7 +13,6 @@ public class CommentServiceImpl implements CommentService {
 
 	private CommentDao commentDao = new CommentDao();
 
-	@Override
 	public List<CommentVO> getComments(int contentId, int page, int pageSize) {
 		// TODO Auto-generated method stub
 		int offset = (page - 1) * pageSize;
@@ -21,5 +20,26 @@ public class CommentServiceImpl implements CommentService {
 		List<CommentVO> commentVOs = commentDao.getComments(contentId, offset, limit);
 
 		return commentVOs;
+	}
+
+	public void addComments(CommentVO commentVo) {
+		// TODO Auto-generated method stub
+		if (commentVo == null) {
+			return;
+		}
+
+		commentDao.addComments(commentVo);
+
+		return;
+	}
+
+	public int queryCommentAmount(String contentId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public Boolean deleteComment(String contentId, String comentId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

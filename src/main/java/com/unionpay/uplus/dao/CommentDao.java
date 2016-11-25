@@ -36,6 +36,45 @@ public class CommentDao {
             + " DESC "
             + " LIMIT "
             + " ? , ? ";
+    
+    private static final String SQL_ADD_COMMENTS = " insert into"
+    		+ "uplus_comments"
+    		+ "( id , "
+            + "user_id , "
+            + "comment , "
+            + "content_id , "
+            + "refer_id , "
+            + "refer_user_id ?, "
+            + "refer_user_name , "
+            + "create_at , "
+            + "last_modified , "
+            + "status , "
+            + "praise_count "
+            + " ) values ("
+            + "?,?,?,?,?,?,?,?,?,?,? )";
+    
+    public void addComments(CommentVO commentVo) {
+    	Connection co = DataSourceUtil.getConnection();
+    	
+    	try {
+    		PreparedStatement ps = co.prepareStatement(SQL_ADD_COMMENTS);
+    		ps.setInt(1, commentVo.getId());
+    		ps.setInt(2, commentVo.getUserId());
+    		ps.setString(3, commentVo.getComment());
+    		ps.setInt(4, commentVo.getContentId());
+    		ps.setInt(5, commentVo.getReferId());
+    		ps.setInt(6, commentVo.getReferUserId());
+    		ps.setString(7, commentVo.getReferUserName());
+    		ps.setLong(8, commentVo.getCreateAt());
+    		ps.setLong(9, commentVo.getLastModified());
+    		ps.setInt(10, commentVo.getStatus());
+    		ps.setInt(11, commentVo.getPraiseCount());
+    		ps.executeQuery();
+    		
+    	}catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public List<CommentVO> getComments(int contentId, int offset, int limit) {
 
@@ -56,14 +95,15 @@ public class CommentDao {
                 commentVO.setId(rs.getInt(1));
                 commentVO.setUserId(rs.getInt(2));
                 commentVO.setComment(rs.getString(3));
-                commentVO.setContentId(rs.getString(4));
-                commentVO.setReferId(rs.getString(5));
+                commentVO.setContentId(rs.getInt(4));
+                commentVO.setReferId(rs.getInt(5));
                 commentVO.setReferUserId(rs.getInt(6));
                 commentVO.setReferUserName(rs.getString(7));
                 commentVO.setCreateAt(rs.getLong(8));
                 commentVO.setLastModified(rs.getLong(9));
-                commentVO.setStatus(rs.getString(10));
-
+                commentVO.setStatus(rs.getInt(10));
+                commentVO.setPraiseCount(rs.getInt(11));
+                
                 results.add(commentVO);
             }
 
