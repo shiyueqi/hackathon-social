@@ -18,19 +18,8 @@ public class UserDao {
             + "user_pic, "
             + "gender, "
             + "age, "
-            + "department"
-            + " FROM "
-            + "uplus_user"
-            + " WHERE "
-            + "id=?";
-
-    private static final String SQL_GET_USERS = "SELECT "
-            + "id, "
-            + "user_name, "
-            + "user_pic, "
-            + "gender, "
-            + "age, "
-            + "department"
+            + "department, "
+            + "office"
             + " FROM "
             + "uplus_user"
             + " WHERE "
@@ -55,6 +44,7 @@ public class UserDao {
                 result.setUserGender(gender == 1 ? "男" : "女");
                 result.setUserAge(rs.getInt(5));
                 result.setDepartment(rs.getString(6));
+                result.setOffice(rs.getString(7));
             }
 
             return result;

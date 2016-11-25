@@ -15,7 +15,7 @@ import javax.ws.rs.core.Context;
 
 @Path("/user")
 @Produces("application/json;charset=UTF-8")
-public class UserRest {
+public class UserResource {
 
     private UserService userService = new UserServiceImpl();
 
@@ -23,7 +23,7 @@ public class UserRest {
     @GET
     @Path("/{userId}")
     @Produces("application/json;charset=UTF-8")
-    public UserVO getServices(@PathParam(value = "userId") int userId
+    public UserVO getUser(@PathParam(value = "userId") int userId
             , @Context HttpServletRequest request) {
         UserVO userVO = userService.getUser(userId);
         return userVO;
