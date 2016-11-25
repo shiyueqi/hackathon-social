@@ -19,7 +19,7 @@ import com.unionpay.uplus.vo.CommentsVO;
 @Path("/comments")
 @Produces("application/json;charset=UTF-8")
 public class CommentResource {
-    private CommentService CommentService = new CommentServiceImpl();
+    private CommentService commentService = new CommentServiceImpl();
 
 
     @GET
@@ -28,16 +28,16 @@ public class CommentResource {
     public CommentsVO getComments(@PathParam(value = "contentId") int contentId , @QueryParam(value = "pageNum") @DefaultValue("1")int pageNum
             , @QueryParam(value = "pageSize") @DefaultValue("5")int pageSize
             , @Context HttpServletRequest request) {
-        CommentsVO CommentsVO = new CommentsVO();
+        CommentsVO commentsVO = new CommentsVO();
 
-        List<CommentVO> CommentVOs = CommentService.getComments(contentId
+        List<CommentVO> commentVOs = commentService.getComments(contentId
                 , pageNum
                 , pageSize);
-        int CommentsCount = CommentService.queryCommentAmount(contentId);	
+        int commentsCount = commentService.queryCommentAmount(contentId);
 
-        CommentsVO.setComments(CommentVOs);
-        CommentsVO.setPage(PageUtil.getPage(pageNum, pageSize, CommentsCount));
+        commentsVO.setComments(commentVOs);
+        commentsVO.setPage(PageUtil.getPage(pageNum, pageSize, commentsCount));
 
-        return CommentsVO;
+        return commentsVO;
     }
 }
