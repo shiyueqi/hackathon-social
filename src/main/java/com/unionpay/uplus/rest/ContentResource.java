@@ -1,5 +1,6 @@
 package com.unionpay.uplus.rest;
 
+import com.alibaba.fastjson.util.UTF8Decoder;
 import com.unionpay.uplus.api.ContentService;
 import com.unionpay.uplus.api.UserService;
 import com.unionpay.uplus.service.ContentServiceImpl;
