@@ -4,6 +4,7 @@ import com.unionpay.uplus.api.ContentService;
 import com.unionpay.uplus.api.UserService;
 import com.unionpay.uplus.service.ContentServiceImpl;
 import com.unionpay.uplus.service.UserServiceImpl;
+import com.unionpay.uplus.util.DecodeUtil;
 import com.unionpay.uplus.util.PageUtil;
 import com.unionpay.uplus.util.PicsUtil;
 import com.unionpay.uplus.vo.*;
@@ -71,26 +72,23 @@ public class ActivityResource {
     public CodeVO createActivity(@FormParam(value = "userId")int userId
             , @FormParam(value = "title")String title
             , @FormParam(value = "content")String content
-            , @FormParam(value = "pics")String pics) {
-        System.out.println("******" + userId + "******");
-        System.out.println("******" + title + "******");
-        System.out.println("******" + content + "******");
-        System.out.println("******" + pics + "******");
+            , @FormParam(value = "pics")String pics
+            , @FormParam(value = "typeSub") int typeSub) {
 
         UserVO userVO = new UserVO();
         userVO.setUserId(userId);
 
-        List<String> picList = PicsUtil.getPics(pics);
+        List<String> picList = PicsUtil.getPics(DecodeUtil.decode(pics));
 
         ContentVO contentVO = new ContentVO();
         contentVO.setUser(userVO);
-        contentVO.setTitle(title);
-        contentVO.setContent(content);
+        contentVO.setTitle(DecodeUtil.decode(title));
+        contentVO.setContent(DecodeUtil.decode(content));
         contentVO.setPicUrls(picList);
         contentVO.setPraiseCount(0);
         contentVO.setCommentsCount(0);
-        contentVO.setTypeMain(TypeMain.contentType);
-        contentVO.setTypeSub(TypeSub.contentDefaultType);
+        contentVO.setTypeMain(TypeMain.activityType);
+        contentVO.setTypeSub(typeSub == 0 ? TypeSub.activityDefaultType : typeSub);
         contentVO.setCreateAt("");
         contentVO.setLastModified("");
 

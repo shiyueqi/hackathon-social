@@ -9,13 +9,13 @@ public class TypeSub {
     /**
      * 默认动态子类型
      */
-    public static final int contentDefaultType = 10;
+    public static final Integer contentDefaultType = 10;
 
 
     /**
      * 活动-默认类型
      */
-    public static final int activityDefaultType = 20;
+    public static final Integer activityDefaultType = 20;
 
     /**
      * 活动-骑行类型
@@ -25,10 +25,10 @@ public class TypeSub {
     /**
      * 问答-默认类型
      */
-    public static final int qaDefaultType = 30;
+    public static final Integer qaDefaultType = 30;
 
     /**
      * 博客-默认类型
      */
-    public static final int blogDefaultType = 40;
+    public static final Integer blogDefaultType = 40;
 }
