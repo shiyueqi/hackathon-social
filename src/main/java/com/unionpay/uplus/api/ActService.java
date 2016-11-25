@@ -12,6 +12,6 @@ import com.unionpay.uplus.vo.UserVO;
 public interface ActService {
     public boolean regActivity(int contentId, UserVO user);
     
-    public List<ActivityRegVO> queryActivity(int contentId, int userId);
+    public List<ActivityRegVO> queryActivity(int contentId);
     
 }

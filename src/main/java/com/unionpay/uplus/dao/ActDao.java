@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.unionpay.uplus.util.DataSourceUtil;
-import com.unionpay.uplus.util.TimeUtil;
 import com.unionpay.uplus.vo.ActivityRegVO;
-import com.unionpay.uplus.vo.CommentVO;
 import com.unionpay.uplus.vo.UserVO;
 
 /**
@@ -26,8 +24,7 @@ public class ActDao {
 			+ " FROM " 
 			+ " uplus_act " 
 			+ " WHERE " 
-			+ " content_id=? " 
-			+ " and user_id = ? ";
+			+ " content_id=? " ;
 
 	private static final String SQL_REG_ACTIVITY = " INSERT INTO " 
 			+ " uplus_act " 
@@ -46,12 +43,11 @@ public class ActDao {
 			+ " WHERE "
 			+ " content_id=? ";
 
-	public List<ActivityRegVO> getActivity(int contentId, int userId) {
+	public List<ActivityRegVO> getActivity(int contentId) {
 		Connection co = DataSourceUtil.getConnection();
 		try {
 			PreparedStatement ps = co.prepareStatement(SQL_GET_ACTIVITY);
 			ps.setInt(1, contentId);
-			ps.setInt(2, userId);
 
 			ResultSet rs = ps.executeQuery();
 			List<ActivityRegVO> results = new ArrayList<ActivityRegVO>();
@@ -63,7 +59,7 @@ public class ActDao {
 				activityRegVO.setContentId(rs.getInt(2));
 
 				UserVO userVO = new UserVO();
-				userVO.setUserId(userId);
+				userVO.setUserId(rs.getInt(3));
 				activityRegVO.setUser(userVO);
 
 				activityRegVO.setCreateAt(rs.getLong(4));
@@ -90,7 +86,7 @@ public class ActDao {
 			ps.setInt(2, user.getUserId());
 			ps.setLong(3, System.currentTimeMillis() / 1000);
 			ps.setLong(4, System.currentTimeMillis() / 1000);
-			ps.execute();
+		ps.execute();
 
 			return true;
 		} catch (Exception e) {

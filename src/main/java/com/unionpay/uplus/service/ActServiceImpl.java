@@ -24,8 +24,8 @@ public class ActServiceImpl implements ActService {
 		return actDao.regActivity(contentId, user);
 	}
 
-	public List<ActivityRegVO> queryActivity(int contentId, int userId) {
-		return actDao.getActivity(contentId, userId);
+	public List<ActivityRegVO> queryActivity(int contentId) {
+		return actDao.getActivity(contentId);
 	}
 
 }

@@ -138,9 +138,8 @@ public class ActivityResource {
     @GET
     @Path("/{activityId}/registries")
     @Produces("application/json;charset=UTF-8")
-    public List<ActivityRegVO> queryActivity(@PathParam(value = "activityId") int activityId
-            , @QueryParam(value = "userId")int userId) {
-    	return actService.queryActivity(activityId, userId);
+    public List<ActivityRegVO> queryActivity(@PathParam(value = "activityId") int activityId) {
+    	return actService.queryActivity(activityId);
     }
     
     @POST
