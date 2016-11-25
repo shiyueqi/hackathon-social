@@ -3,11 +3,7 @@ package com.unionpay.uplus.rest;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 
 import com.unionpay.uplus.api.CommentService;
@@ -27,9 +23,9 @@ public class CommentResource {
 
 
     @GET
-    @Path("/Comments")
+    @Path("/content/{contentId}")
     @Produces("application/json;charset=UTF-8")
-    public CommentsVO getComments(@QueryParam(value = "contentId") int contentId , @QueryParam(value = "pageNum") @DefaultValue("1")int pageNum
+    public CommentsVO getComments(@PathParam(value = "contentId") int contentId , @QueryParam(value = "pageNum") @DefaultValue("1")int pageNum
             , @QueryParam(value = "pageSize") @DefaultValue("5")int pageSize
             , @Context HttpServletRequest request) {
         CommentsVO CommentsVO = new CommentsVO();
