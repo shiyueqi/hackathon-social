@@ -30,8 +30,23 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    public List<ContentVO> getContentsByTypeMain(int typeMain, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        int limit = pageSize;
+
+        List<ContentVO> contentVOs = contentDao.getContentsByTypeMain(typeMain, offset, limit);
+
+        return contentVOs;
+    }
+
+    @Override
     public int getContentsCount(int typeMain, int typeSub) {
         return contentDao.getContentsCount(typeMain, typeSub);
+    }
+
+    @Override
+    public int getContentsCountByTypeMain(int typeMain) {
+        return contentDao.getContentsCountByTypeMain(typeMain);
     }
 
     @Override

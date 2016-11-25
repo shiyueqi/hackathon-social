@@ -13,7 +13,11 @@ public interface ContentService {
 
     public List<ContentVO> getContents(int typeMain, int typeSub, int page, int pageSize);
 
+    public List<ContentVO> getContentsByTypeMain(int typeMain, int page, int pageSize);
+
     public int getContentsCount(int typeMain, int typeSub);
+
+    public int getContentsCountByTypeMain(int typeMain);
 
     public boolean createContent(ContentVO contentVO);
 

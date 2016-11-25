@@ -54,17 +54,23 @@ public class ActivityResource {
             , @Context HttpServletRequest request) {
         ContentsVO contentsVO = new ContentsVO();
 
-        if(!TypeSub.activityTypes.contains(typeSub)) {
-            typeSub = TypeSub.activityDefaultType;
+        List<ContentVO> contentVOs;
+        int contentsCount = 0;
+        if(!TypeSub.activityTypes.contains(typeSub) || typeSub == 0) {
+            contentVOs = contentService.getContentsByTypeMain(
+                    TypeMain.activityType
+                    , pageNum
+                    , pageSize);
+            contentsCount = contentService.getContentsCountByTypeMain(TypeMain.activityType);
+        } else {
+            contentVOs = contentService.getContents(
+                    TypeMain.activityType
+                    , typeSub
+                    , pageNum
+                    , pageSize);
+            contentsCount = contentService.getContentsCount(TypeMain.activityType
+                    , typeSub);
         }
-
-        List<ContentVO> contentVOs = contentService.getContents(
-                TypeMain.activityType
-                , typeSub
-                , pageNum
-                , pageSize);
-            int contentsCount = contentService.getContentsCount(TypeMain.activityType
-                , typeSub);
 
         for(ContentVO contentVO : contentVOs) {
             UserVO userVO = userService.getUser(contentVO.getUser().getUserId());

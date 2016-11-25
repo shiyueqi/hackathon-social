@@ -61,6 +61,30 @@ public class ContentDao {
             + " LIMIT "
             + " ? , ? ";
 
+    private static final String SQL_GET_CONTENTS_BY_TYPE_MAIN = "SELECT "
+            + "id, "
+            + "user_id, "
+            + "title, "
+            + "content, "
+            + "pics, "
+            + "praise_count, "
+            + "comments_count, "
+            + "vote_id, "
+            + "votes_count, "
+            + "type_main, "
+            + "type_sub, "
+            + "create_at, "
+            + "last_modified "
+            + " FROM "
+            + " uplus_content "
+            + " WHERE "
+            + " type_main=? "
+            + " ORDER BY "
+            + " create_at "
+            + " DESC "
+            + " LIMIT "
+            + " ? , ? ";
+
     private static final String SQL_INSERT_CONTENT = "INSERT INTO uplus_content "
             + "("
             + "user_id, "
@@ -99,6 +123,13 @@ public class ContentDao {
             + " WHERE "
             + " type_main=? "
             + " and type_sub=? ";
+
+    private static final String SQL_COUNT_CONTENTS_BY_TYPE_MAIN = "SELECT "
+            + " COUNT(0) "
+            + " FROM "
+            + " uplus_content "
+            + " WHERE "
+            + " type_main=? ";
 
     public ContentVO getContent(int contentId) {
 
@@ -183,6 +214,50 @@ public class ContentDao {
         return new ArrayList<ContentVO>();
     }
 
+    public List<ContentVO> getContentsByTypeMain(int typeMain, int offset, int limit) {
+
+        Connection co = DataSourceUtil.getConnection();
+
+        try {
+            PreparedStatement ps = co.prepareStatement(SQL_GET_CONTENTS_BY_TYPE_MAIN);
+            ps.setInt(1, typeMain);
+            ps.setInt(2, offset);
+            ps.setInt(3, limit);
+            ResultSet rs = ps.executeQuery();
+
+            List<ContentVO> results = new ArrayList<ContentVO>();
+
+            while (rs.next()) {
+                ContentVO contentVO = new ContentVO();
+
+                contentVO.setContentId(rs.getInt(1));
+
+                int userId = rs.getInt(2);
+                UserVO userVO = new UserVO();
+                userVO.setUserId(userId);
+                contentVO.setUser(userVO);
+
+                contentVO.setTitle(rs.getString(3));
+                contentVO.setContent(rs.getString(4));
+                contentVO.setPicUrls(PicsUtil.getPics(rs.getString(5)));
+                contentVO.setPraiseCount(rs.getInt(6));
+                contentVO.setCommentsCount(rs.getInt(7));
+                contentVO.setTypeMain(rs.getInt(10));
+                contentVO.setTypeSub(rs.getInt(11));
+                contentVO.setCreateAt(TimeUtil.getDate(rs.getLong(12)));
+                contentVO.setLastModified(TimeUtil.getDate(rs.getLong(13)));
+
+                results.add(contentVO);
+            }
+
+            return results;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<ContentVO>();
+    }
+
     public int getContentsCount(int typeMain, int typeSub) {
         Connection co = DataSourceUtil.getConnection();
 
@@ -190,6 +265,29 @@ public class ContentDao {
             PreparedStatement ps = co.prepareStatement(SQL_COUNT_CONTENTS);
             ps.setInt(1, typeMain);
             ps.setInt(2, typeSub);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                int contentsCount = rs.getInt(1);
+
+                return contentsCount;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public int getContentsCountByTypeMain(int typeMain) {
+        Connection co = DataSourceUtil.getConnection();
+
+        try {
+            PreparedStatement ps = co.prepareStatement(SQL_COUNT_CONTENTS_BY_TYPE_MAIN);
+            ps.setInt(1, typeMain);
 
             ResultSet rs = ps.executeQuery();
 
