@@ -1,18 +1,34 @@
 package com.unionpay.uplus.rest;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+
+import com.unionpay.uplus.api.ActService;
 import com.unionpay.uplus.api.ContentService;
 import com.unionpay.uplus.api.UserService;
+import com.unionpay.uplus.service.ActServiceImpl;
 import com.unionpay.uplus.service.ContentServiceImpl;
 import com.unionpay.uplus.service.UserServiceImpl;
 import com.unionpay.uplus.util.DecodeUtil;
 import com.unionpay.uplus.util.PageUtil;
 import com.unionpay.uplus.util.PicsUtil;
-import com.unionpay.uplus.vo.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import java.util.List;
+import com.unionpay.uplus.vo.ActivityRegVO;
+import com.unionpay.uplus.vo.CodeVO;
+import com.unionpay.uplus.vo.ContentVO;
+import com.unionpay.uplus.vo.ContentsVO;
+import com.unionpay.uplus.vo.TypeMain;
+import com.unionpay.uplus.vo.TypeSub;
+import com.unionpay.uplus.vo.UserVO;
 
 /**
  * date: 2016/11/25 23:51
@@ -25,6 +41,9 @@ public class ActivityResource {
     private ContentService contentService = new ContentServiceImpl();
 
     private UserService userService = new UserServiceImpl();
+    
+    private ActService actService = new ActServiceImpl() ;
+	
 
     @GET
     @Path("/activities")
@@ -107,5 +126,22 @@ public class ActivityResource {
         return res == true ? CodeVO.SUCCESS : CodeVO.ERROR;
     }
 
+    @POST
+    @Path("/activities/queryAct")
+    @Produces("application/json;charset=UTF-8")
+    public List<ActivityRegVO> queryActivity(@PathParam(value = "contentId") int contentId,@FormParam(value = "userId")int userId) {
+    	return actService.queryActivity(contentId, userId);
+    }
+    
+    @POST
+    @Path("/activities/reg")
+    @Produces("application/json;charset=UTF-8")
+    public CodeVO regActivity(@PathParam(value = "contentId") int contentId,@FormParam(value = "userId")int userId) {
+    	UserVO user = new UserVO();
+    	user.setUserId(userId);
+    	boolean res = actService.regActivity(contentId, user);
+    	return res == true ? CodeVO.SUCCESS : CodeVO.ERROR;
+    }
+    
 
 }
