@@ -8,36 +8,43 @@ import java.util.Set;
  * author: yueqi.shi
  */
 public class ContentVO {
-    int id;
-    int userId;
+
+    int contentId;
+
+    UserVO user;
+
     String title;
+
     String content;
-    String pics;
+
+    List<String> picUrls;
+
     int praiseCount;
-    List<String> praiseUids;
+
     int commentsCount;
-    int voteId;
-    int votesCount;
-    long createAt;
-    long lastModified;
-    int status;
+
+    String createAt;
+
+    String lastModified;
+
     int typeMain;
+
     int typeSub;
 
-    public int getId() {
-        return id;
+    public int getContentId() {
+        return contentId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setContentId(int contentId) {
+        this.contentId = contentId;
     }
 
-    public int getUserId() {
-        return userId;
+    public UserVO getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(UserVO user) {
+        this.user = user;
     }
 
     public String getTitle() {
@@ -56,12 +63,12 @@ public class ContentVO {
         this.content = content;
     }
 
-    public String getPics() {
-        return pics;
+    public List<String> getPicUrls() {
+        return picUrls;
     }
 
-    public void setPics(String pics) {
-        this.pics = pics;
+    public void setPicUrls(List<String> picUrls) {
+        this.picUrls = picUrls;
     }
 
     public int getPraiseCount() {
@@ -72,14 +79,6 @@ public class ContentVO {
         this.praiseCount = praiseCount;
     }
 
-    public List<String> getPraiseUids() {
-        return praiseUids;
-    }
-
-    public void setPraiseUids(List<String> praiseUids) {
-        this.praiseUids = praiseUids;
-    }
-
     public int getCommentsCount() {
         return commentsCount;
     }
@@ -88,44 +87,20 @@ public class ContentVO {
         this.commentsCount = commentsCount;
     }
 
-    public int getVoteId() {
-        return voteId;
-    }
-
-    public void setVoteId(int voteId) {
-        this.voteId = voteId;
-    }
-
-    public int getVotesCount() {
-        return votesCount;
-    }
-
-    public void setVotesCount(int votesCount) {
-        this.votesCount = votesCount;
-    }
-
-    public long getCreateAt() {
+    public String getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(long createAt) {
+    public void setCreateAt(String createAt) {
         this.createAt = createAt;
     }
 
-    public long getLastModified() {
+    public String getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(long lastModified) {
+    public void setLastModified(String lastModified) {
         this.lastModified = lastModified;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     public int getTypeMain() {
@@ -142,26 +117,5 @@ public class ContentVO {
 
     public void setTypeSub(int typeSub) {
         this.typeSub = typeSub;
-    }
-
-    @Override
-    public String toString() {
-        return "ContentVO{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", pics='" + pics + '\'' +
-                ", praiseCount=" + praiseCount +
-                ", praiseUids=" + praiseUids +
-                ", commentsCount=" + commentsCount +
-                ", voteId=" + voteId +
-                ", votesCount=" + votesCount +
-                ", createAt=" + createAt +
-                ", lastModified=" + lastModified +
-                ", status=" + status +
-                ", typeMain=" + typeMain +
-                ", typeSub=" + typeSub +
-                '}';
     }
 }

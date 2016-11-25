@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface ContentService {
     public List<ContentVO> getContents(int typeMain, int typeSub, int page, int pageSize);
+
+    public int getContentsCount(int typeMain, int typeSub);
 }

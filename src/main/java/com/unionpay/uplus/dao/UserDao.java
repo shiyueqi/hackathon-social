@@ -52,6 +52,6 @@ public class UserDao {
             e.printStackTrace();
         }
 
-        return null;
+        return new UserVO();
     }
 }
