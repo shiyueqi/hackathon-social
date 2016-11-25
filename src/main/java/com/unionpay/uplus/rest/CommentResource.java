@@ -10,6 +10,7 @@ import com.unionpay.uplus.api.CommentService;
 import com.unionpay.uplus.api.UserService;
 import com.unionpay.uplus.service.CommentServiceImpl;
 import com.unionpay.uplus.service.UserServiceImpl;
+import com.unionpay.uplus.util.DecodeUtil;
 import com.unionpay.uplus.util.PageUtil;
 import com.unionpay.uplus.vo.CodeVO;
 import com.unionpay.uplus.vo.CommentVO;
@@ -64,7 +65,7 @@ public class CommentResource {
         commentVO.setUser(userVO);
 
         commentVO.setContentId(contentId);
-        commentVO.setComment(comment);
+        commentVO.setComment(DecodeUtil.decode(comment));
 
         boolean res = commentService.addComments(commentVO);
         return res == true ? CodeVO.SUCCESS : CodeVO.ERROR;

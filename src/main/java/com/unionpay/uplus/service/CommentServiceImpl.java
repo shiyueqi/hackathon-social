@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.unionpay.uplus.api.CommentService;
 import com.unionpay.uplus.dao.CommentDao;
+import com.unionpay.uplus.dao.ContentDao;
 import com.unionpay.uplus.vo.CommentVO;
 
 /**
@@ -12,6 +13,8 @@ import com.unionpay.uplus.vo.CommentVO;
 public class CommentServiceImpl implements CommentService {
 
 	private CommentDao commentDao = new CommentDao();
+
+	private ContentDao contentDao = new ContentDao();
 
 	public List<CommentVO> getComments(int contentId, int page, int pageSize) {
 		// TODO Auto-generated method stub
@@ -28,8 +31,13 @@ public class CommentServiceImpl implements CommentService {
 			return false;
 		}
 
-		return commentDao.addComments(commentVo);
+		boolean res = commentDao.addComments(commentVo);
 
+		if (res == true) {
+			contentDao.commentContent(commentVo.getContentId());
+		}
+
+		return res;
 	}
 
 	public int queryCommentAmount(int contentId) {

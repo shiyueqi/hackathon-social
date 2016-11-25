@@ -38,8 +38,8 @@ public class ActivityResource {
                 , TypeSub.contentDefaultType
                 , pageNum
                 , pageSize);
-        int contentsCount = contentService.getContentsCount(TypeMain.contentType
-                , TypeSub.contentDefaultType);
+            int contentsCount = contentService.getContentsCount(TypeMain.activityType
+                , TypeSub.activityDefaultType);
 
         for(ContentVO contentVO : contentVOs) {
             UserVO userVO = userService.getUser(contentVO.getUser().getUserId());

@@ -6,6 +6,7 @@ import com.unionpay.uplus.api.ContentService;
 import com.unionpay.uplus.api.UserService;
 import com.unionpay.uplus.service.ContentServiceImpl;
 import com.unionpay.uplus.service.UserServiceImpl;
+import com.unionpay.uplus.util.DecodeUtil;
 import com.unionpay.uplus.util.PageUtil;
 import com.unionpay.uplus.util.PicsUtil;
 import com.unionpay.uplus.vo.*;
@@ -72,13 +73,7 @@ public class ContentResource {
     public CodeVO createContent(@FormParam(value = "userId")int userId
             , @FormParam(value = "content")String content
             , @FormParam(value = "pics")String pics) {
-        System.out.println("******" + userId + "******");
-        System.out.println("******" + content + "******");
-        System.out.println("******" + pics + "******");
-
         try {
-            String strChinese = new String(content.getBytes("UTF-8"),  "utf-8");
-            System.out.println(strChinese);
 
             UserVO userVO = new UserVO();
             userVO.setUserId(userId);
@@ -88,7 +83,7 @@ public class ContentResource {
             ContentVO contentVO = new ContentVO();
             contentVO.setUser(userVO);
             contentVO.setTitle("");
-            contentVO.setContent(content);
+            contentVO.setContent(DecodeUtil.decode(content));
             contentVO.setPicUrls(picList);
             contentVO.setPraiseCount(0);
             contentVO.setCommentsCount(0);
