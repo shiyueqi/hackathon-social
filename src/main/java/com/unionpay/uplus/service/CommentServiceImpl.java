@@ -33,8 +33,9 @@ public class CommentServiceImpl implements CommentService {
 		return;
 	}
 
-	public int queryCommentAmount(String contentId) {
+	public int queryCommentAmount(int contentId) {
 		// TODO Auto-generated method stub
+		commentDao.getCommentsCount(contentId);
 		return 0;
 	}
 

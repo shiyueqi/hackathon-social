@@ -13,7 +13,7 @@ public interface CommentService {
     
     public void addComments(CommentVO commentVo);
     
-    public int queryCommentAmount(String contentId);
+    public int queryCommentAmount(int contentId);
 	
 //	public Boolean praiseOnCommentsByCommentId(String contentId, String commentId);
 
@@ -21,7 +21,7 @@ public interface CommentService {
 	
 //	public Boolean cancelPraiseOnCommentsByCommentId(String contentId, String commentId, String userId);
 	
-	public Boolean deleteComment(String contentId, String  comentId);
+//	public Boolean deleteComment(String contentId, String  comentId);
 	
 //	public Boolean reportComment(String contentId, String commentId, String authurName);
 	
