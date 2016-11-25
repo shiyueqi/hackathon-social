@@ -22,21 +22,18 @@ public class CommentServiceImpl implements CommentService {
 		return commentVOs;
 	}
 
-	public void addComments(CommentVO commentVo) {
+	public boolean addComments(CommentVO commentVo) {
 		// TODO Auto-generated method stub
 		if (commentVo == null) {
-			return;
+			return false;
 		}
 
-		commentDao.addComments(commentVo);
+		return commentDao.addComments(commentVo);
 
-		return;
 	}
 
 	public int queryCommentAmount(int contentId) {
-		// TODO Auto-generated method stub
-		commentDao.getCommentsCount(contentId);
-		return 0;
+		return commentDao.getCommentsCount(contentId);
 	}
 
 	public Boolean deleteComment(String contentId, String comentId) {

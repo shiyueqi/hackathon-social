@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.unionpay.uplus.util.DataSourceUtil;
+import com.unionpay.uplus.util.TimeUtil;
 import com.unionpay.uplus.vo.CommentVO;
+import com.unionpay.uplus.vo.UserVO;
 
 /**
  * date: 2016/11/25 22:53
@@ -37,9 +39,9 @@ public class CommentDao {
             + " LIMIT "
             + " ? , ? ";
     
-    private static final String SQL_ADD_COMMENTS = " insert into "
+    private static final String SQL_ADD_COMMENTS = " INSERT INTO "
     		+ " uplus_comments "
-    		+ "( id , "
+    		+ "( "
             + "user_id , "
             + "comment , "
             + "content_id , "
@@ -51,7 +53,7 @@ public class CommentDao {
             + "status , "
             + "praise_count "
             + " ) values ("
-            + "?,?,?,?,?,?,?,?,?,?,? )";
+            + "?,?,?,?,?,?,?,?,?,? )";
     
     private static final String SQL_COUNT_COMMENTS = "SELECT "
             + " COUNT(0) "
@@ -60,27 +62,29 @@ public class CommentDao {
             + " WHERE "
             + " content_id=? ";
     
-    public void addComments(CommentVO commentVo) {
+    public boolean addComments(CommentVO commentVo) {
     	Connection co = DataSourceUtil.getConnection();
     	
     	try {
     		PreparedStatement ps = co.prepareStatement(SQL_ADD_COMMENTS);
-    		ps.setInt(1, commentVo.getId());
-    		ps.setInt(2, commentVo.getUserId());
-    		ps.setString(3, commentVo.getComment());
-    		ps.setInt(4, commentVo.getContentId());
-    		ps.setInt(5, commentVo.getReferId());
-    		ps.setInt(6, commentVo.getReferUserId());
-    		ps.setString(7, commentVo.getReferUserName());
-    		ps.setLong(8, commentVo.getCreateAt());
-    		ps.setLong(9, commentVo.getLastModified());
-    		ps.setInt(10, commentVo.getStatus());
-    		ps.setInt(11, commentVo.getPraiseCount());
-    		ps.executeQuery();
-    		
+    		ps.setInt(1, commentVo.getUser().getUserId());
+    		ps.setString(2, commentVo.getComment());
+    		ps.setInt(3, commentVo.getContentId());
+    		ps.setInt(4, 0);
+    		ps.setInt(5, 0);
+    		ps.setString(6, "");
+    		ps.setLong(7, System.currentTimeMillis()/1000);
+    		ps.setLong(8, System.currentTimeMillis()/1000);
+    		ps.setInt(9, 1);
+    		ps.setInt(10, 0);
+    		ps.execute();
+
+            return true;
     	}catch (Exception e) {
             e.printStackTrace();
         }
+
+        return false;
     }
 
     public List<CommentVO> getComments(int contentId, int offset, int limit) {
@@ -99,18 +103,18 @@ public class CommentDao {
             while (rs.next()) {
             	CommentVO commentVO = new CommentVO();
 
-                commentVO.setId(rs.getInt(1));
-                commentVO.setUserId(rs.getInt(2));
+                commentVO.setCommentId(rs.getInt(1));
+
+                int userId = rs.getInt(2);
+                UserVO userVO = new UserVO();
+                userVO.setUserId(userId);
+                commentVO.setUser(userVO);
+
                 commentVO.setComment(rs.getString(3));
                 commentVO.setContentId(rs.getInt(4));
-                commentVO.setReferId(rs.getInt(5));
-                commentVO.setReferUserId(rs.getInt(6));
-                commentVO.setReferUserName(rs.getString(7));
-                commentVO.setCreateAt(rs.getLong(8));
-                commentVO.setLastModified(rs.getLong(9));
-                commentVO.setStatus(rs.getInt(10));
-                commentVO.setPraiseCount(rs.getInt(11));
-                
+                commentVO.setCreateAt(TimeUtil.getDate(rs.getLong(8)));
+                commentVO.setLastModified(TimeUtil.getDate(rs.getLong(9)));
+
                 results.add(commentVO);
             }
 

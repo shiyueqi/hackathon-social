@@ -59,6 +59,9 @@ public class ContentResource {
             , @Context HttpServletRequest request) {
         ContentVO contentVO = contentService.getContent(contentId);
 
+        UserVO userVO = userService.getUser(contentVO.getUser().getUserId());
+        contentVO.setUser(userVO);
+
         return contentVO;
     }
 

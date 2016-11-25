@@ -7,16 +7,24 @@ import java.util.List;
  * author: yueqi.shi
  */
 public class CommentsVO {
-    private List<CommentVO> Comments;
+    private List<CommentVO> comments;
 
     private PageVO page;
 
     public CommentsVO() {
     }
 
-    public CommentsVO(List<CommentVO> Comments, PageVO page) {
-        this.Comments = Comments;
+    public CommentsVO(List<CommentVO> comments, PageVO page) {
+        this.comments = comments;
         this.page = page;
+    }
+
+    public List<CommentVO> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentVO> comments) {
+        this.comments = comments;
     }
 
     public PageVO getPage() {
@@ -27,18 +35,10 @@ public class CommentsVO {
         this.page = page;
     }
 
-    public List<CommentVO> getComments() {
-        return Comments;
-    }
-
-    public void setComments(List<CommentVO> Comments) {
-        this.Comments = Comments;
-    }
-
     @Override
     public String toString() {
         return "CommentsVO{" +
-                "Comments=" + Comments +
+                "comments=" + comments +
                 ", page=" + page +
                 '}';
     }

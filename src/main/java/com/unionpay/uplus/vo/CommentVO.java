@@ -6,19 +6,23 @@ import java.util.Set;
  * date: 2016/11/25 14:51 author: yueqi.shi
  */
 public class CommentVO {
-	int id;
-	int userId;
-	String comment;
+	int commentId;
 	int contentId;
-	int referId;
-	int referUserId;
-	String referUserName;
-	long createAt;
-	long lastModified;
-	// boolean praised;
-	int status;
-	int praiseCount;
-	// Set<String> praiseUids;
+	UserVO user;
+	String comment;
+	String createAt;
+	String lastModified;
+
+	public CommentVO() {
+	}
+
+	public int getCommentId() {
+		return commentId;
+	}
+
+	public void setCommentId(int commentId) {
+		this.commentId = commentId;
+	}
 
 	public int getContentId() {
 		return contentId;
@@ -28,85 +32,13 @@ public class CommentVO {
 		this.contentId = contentId;
 	}
 
-	public int getReferUserId() {
-		return referUserId;
+	public UserVO getUser() {
+		return user;
 	}
 
-	public void setReferUserId(int referUserId) {
-		this.referUserId = referUserId;
+	public void setUser(UserVO user) {
+		this.user = user;
 	}
-
-	public int getCommentId() {
-		return contentId;
-	}
-
-	public void setCommentId(int commentId) {
-		this.contentId = commentId;
-	}
-
-	public int getReferId() {
-		return referId;
-	}
-
-	public void setReferId(int referId) {
-		this.referId = referId;
-	}
-
-	public String getReferUserName() {
-		return referUserName;
-	}
-
-	public void setReferUserName(String referUserName) {
-		this.referUserName = referUserName;
-	}
-
-	public long getCreateAt() {
-		return createAt;
-	}
-
-	public void setCreateAt(long createAt) {
-		this.createAt = createAt;
-	}
-
-	public long getLastModified() {
-		return lastModified;
-	}
-
-	public void setLastModified(long lastModified) {
-		this.lastModified = lastModified;
-	}
-
-	// public boolean isPraised() {
-	// return praised;
-	// }
-	//
-	// public void setPraised(boolean praised) {
-	// this.praised = praised;
-	// }
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
-	 public int getPraiseCount() {
-	 return praiseCount;
-	 }
-	
-	 public void setPraiseCount(int praiseCount) {
-	 this.praiseCount = praiseCount;
-	 }
-	//
-	// public Set<String> getPraiseUids() {
-	// return praiseUids;
-	// }
-	//
-	// public void setPraiseUids(Set<String> praiseUids) {
-	// this.praiseUids = praiseUids;
-	// }
 
 	public String getComment() {
 		return comment;
@@ -116,20 +48,31 @@ public class CommentVO {
 		this.comment = comment;
 	}
 
-	public int getId() {
-		return id;
+	public String getCreateAt() {
+		return createAt;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setCreateAt(String createAt) {
+		this.createAt = createAt;
 	}
 
-	public int getUserId() {
-		return userId;
+	public String getLastModified() {
+		return lastModified;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setLastModified(String lastModified) {
+		this.lastModified = lastModified;
 	}
 
+	@Override
+	public String toString() {
+		return "CommentVO{" +
+				"commentId=" + commentId +
+				", contentId=" + contentId +
+				", user=" + user +
+				", comment='" + comment + '\'' +
+				", createAt=" + createAt +
+				", lastModified=" + lastModified +
+				'}';
+	}
 }

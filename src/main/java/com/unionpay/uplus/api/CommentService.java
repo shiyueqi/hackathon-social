@@ -11,7 +11,7 @@ import com.unionpay.uplus.vo.CommentVO;
 public interface CommentService {
     public List<CommentVO> getComments(int contentId, int page, int pageSize);
     
-    public void addComments(CommentVO commentVo);
+    public boolean addComments(CommentVO commentVo);
     
     public int queryCommentAmount(int contentId);
 	
