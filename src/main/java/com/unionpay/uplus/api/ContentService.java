@@ -9,6 +9,8 @@ import java.util.List;
  * author: yueqi.shi
  */
 public interface ContentService {
+    public ContentVO getContent(int contentId);
+
     public List<ContentVO> getContents(int typeMain, int typeSub, int page, int pageSize);
 
     public int getContentsCount(int typeMain, int typeSub);

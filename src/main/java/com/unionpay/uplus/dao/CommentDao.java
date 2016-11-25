@@ -26,7 +26,7 @@ public class CommentDao {
             + "create_at, "
             + "last_modified, "
             + "status, "
-            + "praise_count, "
+            + "praise_count "
             + " FROM "
             + "uplus_comments"
             + " WHERE "

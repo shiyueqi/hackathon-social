@@ -52,6 +52,16 @@ public class ContentResource {
         return contentsVO;
     }
 
+    @GET
+    @Path("/{contentId}")
+    @Produces("application/json;charset=UTF-8")
+    public ContentVO getContent(@PathParam(value = "contentId") int contentId
+            , @Context HttpServletRequest request) {
+        ContentVO contentVO = contentService.getContent(contentId);
+
+        return contentVO;
+    }
+
     @POST
     @Path("/")
     @Produces("application/json;charset=UTF-8")

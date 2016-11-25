@@ -15,6 +15,11 @@ public class ContentServiceImpl implements ContentService {
     private ContentDao contentDao = new ContentDao();
 
     @Override
+    public ContentVO getContent(int contentId) {
+        return contentDao.getContent(contentId);
+    }
+
+    @Override
     public List<ContentVO> getContents(int typeMain, int typeSub, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
         int limit = pageSize;

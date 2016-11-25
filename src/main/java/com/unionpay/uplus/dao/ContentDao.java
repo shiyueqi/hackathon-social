@@ -30,11 +30,11 @@ public class ContentDao {
             + "type_main, "
             + "type_sub, "
             + "create_at, "
-            + "last_modified, "
+            + "last_modified "
             + " FROM "
-            + "uplus_content"
+            + "uplus_content "
             + " WHERE "
-            + "id=?";
+            + " id=? ";
 
     private static final String SQL_GET_CONTENTS = "SELECT "
             + "id, "
@@ -99,6 +99,44 @@ public class ContentDao {
             + " WHERE "
             + " type_main=? "
             + " and type_sub=? ";
+
+    public ContentVO getContent(int contentId) {
+
+        Connection co = DataSourceUtil.getConnection();
+
+        try {
+            PreparedStatement ps = co.prepareStatement(SQL_GET_CONTENT);
+            ps.setInt(1, contentId);
+            ResultSet rs = ps.executeQuery();
+
+            ContentVO contentVO = new ContentVO();
+
+            if (rs.next()) {
+                contentVO.setContentId(rs.getInt(1));
+
+                int userId = rs.getInt(2);
+                UserVO userVO = new UserVO();
+                userVO.setUserId(userId);
+                contentVO.setUser(userVO);
+
+                contentVO.setTitle(rs.getString(3));
+                contentVO.setContent(rs.getString(4));
+                contentVO.setPicUrls(PicsUtil.getPics(rs.getString(5)));
+                contentVO.setPraiseCount(rs.getInt(6));
+                contentVO.setCommentsCount(rs.getInt(7));
+                contentVO.setTypeMain(rs.getInt(10));
+                contentVO.setTypeSub(rs.getInt(11));
+                contentVO.setCreateAt(TimeUtil.getDate(rs.getLong(12)));
+                contentVO.setLastModified(TimeUtil.getDate(rs.getLong(13)));
+            }
+
+            return contentVO;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ContentVO();
+    }
 
     public List<ContentVO> getContents(int typeMain, int typeSub, int offset, int limit) {
 
