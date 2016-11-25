@@ -19,7 +19,6 @@ public class UserResource {
 
     private UserService userService = new UserServiceImpl();
 
-
     @GET
     @Path("/{userId}")
     @Produces("application/json;charset=UTF-8")

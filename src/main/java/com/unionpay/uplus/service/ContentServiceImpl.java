@@ -23,4 +23,9 @@ public class ContentServiceImpl implements ContentService {
 
         return contentVOs;
     }
+
+    @Override
+    public int getContentsCount(int typeMain, int typeSub) {
+        return contentDao.getContentsCount(typeMain, typeSub);
+    }
 }
