@@ -44,7 +44,7 @@ public class CommentDao {
             + "comment , "
             + "content_id , "
             + "refer_id , "
-            + "refer_user_id ?, "
+            + "refer_user_id , "
             + "refer_user_name , "
             + "create_at , "
             + "last_modified , "
