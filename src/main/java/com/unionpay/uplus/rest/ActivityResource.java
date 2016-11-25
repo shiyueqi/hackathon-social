@@ -1,7 +1,5 @@
 package com.unionpay.uplus.rest;
 
-import com.alibaba.fastjson.util.UTF8Decoder;
-import com.sun.org.apache.bcel.internal.classfile.Code;
 import com.unionpay.uplus.api.ContentService;
 import com.unionpay.uplus.api.UserService;
 import com.unionpay.uplus.service.ContentServiceImpl;
@@ -19,15 +17,16 @@ import java.util.List;
  * date: 2016/11/25 23:51
  * author: yueqi.shi
  */
-@Path("/content")
+@Path("/activity")
 @Produces("application/json;charset=UTF-8")
-public class ContentResource {
+public class ActivityResource {
+
     private ContentService contentService = new ContentServiceImpl();
 
     private UserService userService = new UserServiceImpl();
 
     @GET
-    @Path("/contents")
+    @Path("/activities")
     @Produces("application/json;charset=UTF-8")
     public ContentsVO getContents(@QueryParam(value = "pageNum") @DefaultValue("1")int pageNum
             , @QueryParam(value = "pageSize") @DefaultValue("5")int pageSize
@@ -54,11 +53,11 @@ public class ContentResource {
     }
 
     @GET
-    @Path("/{contentId}")
+    @Path("/{activityId}")
     @Produces("application/json;charset=UTF-8")
-    public ContentVO getContent(@PathParam(value = "contentId") int contentId
+    public ContentVO getContent(@PathParam(value = "activityId") int activityId
             , @Context HttpServletRequest request) {
-        ContentVO contentVO = contentService.getContent(contentId);
+        ContentVO contentVO = contentService.getContent(activityId);
 
         UserVO userVO = userService.getUser(contentVO.getUser().getUserId());
         contentVO.setUser(userVO);
@@ -69,49 +68,43 @@ public class ContentResource {
     @POST
     @Path("/")
     @Produces("application/json;charset=UTF-8")
-    public CodeVO createContent(@FormParam(value = "userId")int userId
+    public CodeVO createActivity(@FormParam(value = "userId")int userId
+            , @FormParam(value = "title")String title
             , @FormParam(value = "content")String content
             , @FormParam(value = "pics")String pics) {
         System.out.println("******" + userId + "******");
+        System.out.println("******" + title + "******");
         System.out.println("******" + content + "******");
         System.out.println("******" + pics + "******");
 
-        try {
-            String strChinese = new String(content.getBytes("UTF-8"),  "utf-8");
-            System.out.println(strChinese);
+        UserVO userVO = new UserVO();
+        userVO.setUserId(userId);
 
-            UserVO userVO = new UserVO();
-            userVO.setUserId(userId);
+        List<String> picList = PicsUtil.getPics(pics);
 
-            List<String> picList = PicsUtil.getPics(pics);
+        ContentVO contentVO = new ContentVO();
+        contentVO.setUser(userVO);
+        contentVO.setTitle(title);
+        contentVO.setContent(content);
+        contentVO.setPicUrls(picList);
+        contentVO.setPraiseCount(0);
+        contentVO.setCommentsCount(0);
+        contentVO.setTypeMain(TypeMain.contentType);
+        contentVO.setTypeSub(TypeSub.contentDefaultType);
+        contentVO.setCreateAt("");
+        contentVO.setLastModified("");
 
-            ContentVO contentVO = new ContentVO();
-            contentVO.setUser(userVO);
-            contentVO.setTitle("");
-            contentVO.setContent(content);
-            contentVO.setPicUrls(picList);
-            contentVO.setPraiseCount(0);
-            contentVO.setCommentsCount(0);
-            contentVO.setTypeMain(TypeMain.contentType);
-            contentVO.setTypeSub(TypeSub.contentDefaultType);
-            contentVO.setCreateAt("");
-            contentVO.setLastModified("");
+        boolean res = contentService.createContent(contentVO);
 
-            boolean res = contentService.createContent(contentVO);
-
-            return res == true ? CodeVO.SUCCESS : CodeVO.ERROR;
-        } catch (Exception e) {
-            return CodeVO.ERROR;
-        }
-
+        return res == true ? CodeVO.SUCCESS : CodeVO.ERROR;
     }
 
     @POST
-    @Path("/{contentId}")
+    @Path("/{activityId}")
     @Produces("application/json;charset=UTF-8")
-    public CodeVO praiseContent(@PathParam(value = "contentId")int contentId) {
+    public CodeVO praiseActivity(@PathParam(value = "activityId")int activityId) {
 
-        boolean res = contentService.praiseContent(contentId);
+        boolean res = contentService.praiseContent(activityId);
 
         return res == true ? CodeVO.SUCCESS : CodeVO.ERROR;
     }
