@@ -22,7 +22,7 @@ public class ActDao {
 			+ "content_id, " 
 			+ "user_id, " 
 			+ "create_at, "
-			+ "last_modified, " 
+			+ "last_modified "
 			+ " FROM " 
 			+ " uplus_act " 
 			+ " WHERE " 
@@ -35,7 +35,7 @@ public class ActDao {
 			+ "content_id , "
 			+ "user_id , " 
 			+ "create_at , " 
-			+ "last_modified , " 
+			+ "last_modified "
 			+ " ) values (" 
 			+ "?,?,?,? )";
 

@@ -1,18 +1,5 @@
 package com.unionpay.uplus.rest;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-
 import com.unionpay.uplus.api.ActService;
 import com.unionpay.uplus.api.ContentService;
 import com.unionpay.uplus.api.UserService;
@@ -22,31 +9,27 @@ import com.unionpay.uplus.service.UserServiceImpl;
 import com.unionpay.uplus.util.DecodeUtil;
 import com.unionpay.uplus.util.PageUtil;
 import com.unionpay.uplus.util.PicsUtil;
-import com.unionpay.uplus.vo.ActivityRegVO;
-import com.unionpay.uplus.vo.CodeVO;
-import com.unionpay.uplus.vo.ContentVO;
-import com.unionpay.uplus.vo.ContentsVO;
-import com.unionpay.uplus.vo.TypeMain;
-import com.unionpay.uplus.vo.TypeSub;
-import com.unionpay.uplus.vo.UserVO;
+import com.unionpay.uplus.vo.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import java.util.List;
 
 /**
  * date: 2016/11/25 23:51
  * author: yueqi.shi
  */
-@Path("/activity")
+@Path("/qa")
 @Produces("application/json;charset=UTF-8")
-public class ActivityResource {
+public class QaResource {
 
     private ContentService contentService = new ContentServiceImpl();
 
     private UserService userService = new UserServiceImpl();
     
-    private ActService actService = new ActServiceImpl() ;
-	
-
     @GET
-    @Path("/activities")
+    @Path("/qas")
     @Produces("application/json;charset=UTF-8")
     public ContentsVO getContentsByTypeSub(@QueryParam(value = "pageNum") @DefaultValue("1")int pageNum
             , @QueryParam(value = "pageSize") @DefaultValue("5")int pageSize
@@ -54,16 +37,16 @@ public class ActivityResource {
             , @Context HttpServletRequest request) {
         ContentsVO contentsVO = new ContentsVO();
 
-        if(!TypeSub.activityTypes.contains(typeSub)) {
-            typeSub = TypeSub.activityDefaultType;
+        if(!TypeSub.qaTypes.contains(typeSub)) {
+            typeSub = TypeSub.qaDefaultType;
         }
 
         List<ContentVO> contentVOs = contentService.getContents(
-                TypeMain.activityType
+                TypeMain.qaType
                 , typeSub
                 , pageNum
                 , pageSize);
-            int contentsCount = contentService.getContentsCount(TypeMain.activityType
+            int contentsCount = contentService.getContentsCount(TypeMain.qaType
                 , typeSub);
 
         for(ContentVO contentVO : contentVOs) {
@@ -78,11 +61,11 @@ public class ActivityResource {
     }
 
     @GET
-    @Path("/{activityId}")
+    @Path("/{qaId}")
     @Produces("application/json;charset=UTF-8")
-    public ContentVO getContent(@PathParam(value = "activityId") int activityId
+    public ContentVO getContent(@PathParam(value = "qaId") int qaId
             , @Context HttpServletRequest request) {
-        ContentVO contentVO = contentService.getContent(activityId);
+        ContentVO contentVO = contentService.getContent(qaId);
 
         UserVO userVO = userService.getUser(contentVO.getUser().getUserId());
         contentVO.setUser(userVO);
@@ -102,8 +85,8 @@ public class ActivityResource {
         UserVO userVO = new UserVO();
         userVO.setUserId(userId);
 
-        if(!TypeSub.activityTypes.contains(typeSub)) {
-            typeSub = TypeSub.activityDefaultType;
+        if(!TypeSub.qaTypes.contains(typeSub)) {
+            typeSub = TypeSub.qaDefaultType;
         }
 
         List<String> picList = PicsUtil.getPics(DecodeUtil.decode(pics));
@@ -115,7 +98,7 @@ public class ActivityResource {
         contentVO.setPicUrls(picList);
         contentVO.setPraiseCount(0);
         contentVO.setCommentsCount(0);
-        contentVO.setTypeMain(TypeMain.activityType);
+        contentVO.setTypeMain(TypeMain.qaType);
         contentVO.setTypeSub(typeSub);
         contentVO.setCreateAt("");
         contentVO.setLastModified("");
@@ -126,33 +109,13 @@ public class ActivityResource {
     }
 
     @POST
-    @Path("/{activityId}")
+    @Path("/{qaId}")
     @Produces("application/json;charset=UTF-8")
-    public CodeVO praiseActivity(@PathParam(value = "activityId")int activityId) {
+    public CodeVO praiseActivity(@PathParam(value = "qaId")int qaId) {
 
-        boolean res = contentService.praiseContent(activityId);
+        boolean res = contentService.praiseContent(qaId);
 
         return res == true ? CodeVO.SUCCESS : CodeVO.ERROR;
     }
-
-    @GET
-    @Path("/{activityId}/registries")
-    @Produces("application/json;charset=UTF-8")
-    public List<ActivityRegVO> queryActivity(@PathParam(value = "activityId") int activityId
-            , @QueryParam(value = "userId")int userId) {
-    	return actService.queryActivity(activityId, userId);
-    }
-    
-    @POST
-    @Path("/{activityId}/newreg")
-    @Produces("application/json;charset=UTF-8")
-    public CodeVO regActivity(@PathParam(value = "activityId") int activityId
-    		,@FormParam(value = "userId")int userId) {
-    	UserVO user = new UserVO();
-    	user.setUserId(userId);
-    	boolean res = actService.regActivity(activityId, user);
-    	return res == true ? CodeVO.SUCCESS : CodeVO.ERROR;
-    }
-    
 
 }
