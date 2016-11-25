@@ -48,14 +48,19 @@ public class ActivityResource {
     @GET
     @Path("/activities")
     @Produces("application/json;charset=UTF-8")
-    public ContentsVO getContents(@QueryParam(value = "pageNum") @DefaultValue("1")int pageNum
+    public ContentsVO getContentsByTypeSub(@QueryParam(value = "pageNum") @DefaultValue("1")int pageNum
             , @QueryParam(value = "pageSize") @DefaultValue("5")int pageSize
+            , @QueryParam(value = "typeSub") int typeSub
             , @Context HttpServletRequest request) {
         ContentsVO contentsVO = new ContentsVO();
 
+        if(!TypeSub.activityTypes.contains(typeSub)) {
+            typeSub = TypeSub.activityDefaultType;
+        }
+
         List<ContentVO> contentVOs = contentService.getContents(
                 TypeMain.contentType
-                , TypeSub.contentDefaultType
+                , typeSub
                 , pageNum
                 , pageSize);
             int contentsCount = contentService.getContentsCount(TypeMain.activityType
@@ -97,6 +102,10 @@ public class ActivityResource {
         UserVO userVO = new UserVO();
         userVO.setUserId(userId);
 
+        if(!TypeSub.activityTypes.contains(typeSub)) {
+            typeSub = TypeSub.activityDefaultType;
+        }
+
         List<String> picList = PicsUtil.getPics(DecodeUtil.decode(pics));
 
         ContentVO contentVO = new ContentVO();
@@ -107,7 +116,7 @@ public class ActivityResource {
         contentVO.setPraiseCount(0);
         contentVO.setCommentsCount(0);
         contentVO.setTypeMain(TypeMain.activityType);
-        contentVO.setTypeSub(typeSub == 0 ? TypeSub.activityDefaultType : typeSub);
+        contentVO.setTypeSub(typeSub);
         contentVO.setCreateAt("");
         contentVO.setLastModified("");
 
