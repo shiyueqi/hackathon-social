@@ -144,12 +144,13 @@ public class ActivityResource {
     }
     
     @POST
-    @Path("/activities/reg")
+    @Path("/{activityId}/newreg")
     @Produces("application/json;charset=UTF-8")
-    public CodeVO regActivity(@PathParam(value = "contentId") int contentId,@FormParam(value = "userId")int userId) {
+    public CodeVO regActivity(@PathParam(value = "activityId") int activityId
+    		,@FormParam(value = "userId")int userId) {
     	UserVO user = new UserVO();
     	user.setUserId(userId);
-    	boolean res = actService.regActivity(contentId, user);
+    	boolean res = actService.regActivity(activityId, user);
     	return res == true ? CodeVO.SUCCESS : CodeVO.ERROR;
     }
     
