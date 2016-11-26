@@ -103,7 +103,7 @@ public class ActivityResource {
 
         List<UserVO> userVOs = new ArrayList<UserVO>();
         for(ActivityRegVO activityRegVO : activityRegVOs) {
-            userVOs.add(activityRegVO.getUser());
+            userVOs.add(userService.getUser(activityRegVO.getUser().getUserId()));
         }
 
         activityVO.setActivityUsers(userVOs);
