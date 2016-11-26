@@ -55,9 +55,11 @@ public class ContentResource {
     }
     
     @GET
-    @Path("/contents")
+    @Path("/mycontents")
     @Produces("application/json;charset=UTF-8")
-    public ContentsVO getMyContents(@QueryParam(value = "userId") int userId,@QueryParam(value = "typeMain") int typeMain, @QueryParam(value = "pageNum") @DefaultValue("1")int pageNum
+    public ContentsVO getMyContents(@QueryParam(value = "userId") int userId
+            , @QueryParam(value = "typeMain") int typeMain
+            , @QueryParam(value = "pageNum") @DefaultValue("1")int pageNum
             , @QueryParam(value = "pageSize") @DefaultValue("5")int pageSize
             , @Context HttpServletRequest request) {
         ContentsVO contentsVO = new ContentsVO();
