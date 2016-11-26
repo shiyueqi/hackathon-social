@@ -1,5 +1,6 @@
 package com.unionpay.uplus.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,13 +23,7 @@ import com.unionpay.uplus.service.UserServiceImpl;
 import com.unionpay.uplus.util.DecodeUtil;
 import com.unionpay.uplus.util.PageUtil;
 import com.unionpay.uplus.util.PicsUtil;
-import com.unionpay.uplus.vo.ActivityRegVO;
-import com.unionpay.uplus.vo.CodeVO;
-import com.unionpay.uplus.vo.ContentVO;
-import com.unionpay.uplus.vo.ContentsVO;
-import com.unionpay.uplus.vo.TypeMain;
-import com.unionpay.uplus.vo.TypeSub;
-import com.unionpay.uplus.vo.UserVO;
+import com.unionpay.uplus.vo.*;
 
 /**
  * date: 2016/11/25 23:51
@@ -86,14 +81,35 @@ public class ActivityResource {
     @GET
     @Path("/{activityId}")
     @Produces("application/json;charset=UTF-8")
-    public ContentVO getContent(@PathParam(value = "activityId") int activityId
+    public ActivityVO getContent(@PathParam(value = "activityId") int activityId
             , @Context HttpServletRequest request) {
+        ActivityVO activityVO = new ActivityVO();
+
         ContentVO contentVO = contentService.getContent(activityId);
-
+        List<ActivityRegVO> activityRegVOs = actService.queryActivity(activityId);
         UserVO userVO = userService.getUser(contentVO.getUser().getUserId());
-        contentVO.setUser(userVO);
 
-        return contentVO;
+        activityVO.setContentId(contentVO.getContentId());
+        activityVO.setUser(userVO);
+        activityVO.setTitle(contentVO.getTitle());
+        activityVO.setContent(contentVO.getContent());
+        activityVO.setPicUrls(contentVO.getPicUrls());
+        activityVO.setPraiseCount(contentVO.getPraiseCount());
+        activityVO.setCommentsCount(contentVO.getCommentsCount());
+        activityVO.setCreateAt(contentVO.getCreateAt());
+        activityVO.setLastModified(contentVO.getLastModified());
+        activityVO.setTypeMain(contentVO.getTypeMain());
+        activityVO.setTypeSub(contentVO.getTypeSub());
+
+        List<UserVO> userVOs = new ArrayList<UserVO>();
+        for(ActivityRegVO activityRegVO : activityRegVOs) {
+            userVOs.add(activityRegVO.getUser());
+        }
+
+        activityVO.setActivityUsers(userVOs);
+        activityVO.setActivityUsersCount(userVOs.size());
+
+        return activityVO;
     }
 
     @POST
