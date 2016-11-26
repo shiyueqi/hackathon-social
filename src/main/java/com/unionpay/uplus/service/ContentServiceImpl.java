@@ -58,4 +58,14 @@ public class ContentServiceImpl implements ContentService {
     public boolean praiseContent(int contentId) {
         return contentDao.praiseContent(contentId);
     }
+
+	public List<ContentVO> getMyContents(int userId, int typeMain, int page, int pageSize) {
+		// TODO Auto-generated method stub
+		return contentDao.getContentByUserId(userId, typeMain, page, pageSize);
+	}
+
+	public int getMyContentsCount(int userId, int typeMain) {
+		// TODO Auto-generated method stub
+		return contentDao.getMyContentsCount(userId, typeMain);
+	}
 }

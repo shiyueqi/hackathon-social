@@ -53,6 +53,29 @@ public class ContentResource {
 
         return contentsVO;
     }
+    
+    @GET
+    @Path("/contents")
+    @Produces("application/json;charset=UTF-8")
+    public ContentsVO getMyContents(@QueryParam(value = "userId") int userId,@QueryParam(value = "typeMain") int typeMain, @QueryParam(value = "pageNum") @DefaultValue("1")int pageNum
+            , @QueryParam(value = "pageSize") @DefaultValue("5")int pageSize
+            , @Context HttpServletRequest request) {
+        ContentsVO contentsVO = new ContentsVO();
+
+        List<ContentVO> contentVOs = contentService.getMyContents(
+               userId, typeMain, pageNum, pageSize);
+        int contentsCount = contentService.getMyContentsCount(userId, typeMain);
+
+        for(ContentVO contentVO : contentVOs) {
+            UserVO userVO = userService.getUser(contentVO.getUser().getUserId());
+            contentVO.setUser(userVO);
+        }
+
+        contentsVO.setContents(contentVOs);
+        contentsVO.setPage(PageUtil.getPage(pageNum, pageSize, contentsCount));
+
+        return contentsVO;
+    }
 
     @GET
     @Path("/{contentId}")

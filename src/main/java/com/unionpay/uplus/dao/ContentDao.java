@@ -35,6 +35,31 @@ public class ContentDao {
             + "uplus_content "
             + " WHERE "
             + " id=? ";
+    
+    private static final String SQL_GET_CONTENT_BY_USER = "SELECT "
+            + "id, "
+            + "user_id, "
+            + "title, "
+            + "content, "
+            + "pics, "
+            + "praise_count, "
+            + "comments_count, "
+            + "vote_id, "
+            + "votes_count, "
+            + "type_main, "
+            + "type_sub, "
+            + "create_at, "
+            + "last_modified "
+            + " FROM "
+            + "uplus_content "
+            + " WHERE "
+            + " user_id= ? "
+            + " and type_main = ? "
+            + " ORDER BY "
+            + " create_at "
+            + " DESC "
+            + " LIMIT "
+            + " ? , ? ";
 
     private static final String SQL_GET_CONTENTS = "SELECT "
             + "id, "
@@ -123,6 +148,82 @@ public class ContentDao {
             + " WHERE "
             + " type_main=? "
             + " and type_sub=? ";
+    
+    private static final String SQL_COUNT_MY_CONTENTS = "SELECT "
+            + " COUNT(0) "
+            + " FROM "
+            + " uplus_content "
+            + " WHERE "
+            + " user_id = ? "
+            + " and type_main= ? ";
+    
+    public int getMyContentsCount(int userId,int typeMain) {
+        Connection co = DataSourceUtil.getConnection();
+
+        try {
+            PreparedStatement ps = co.prepareStatement(SQL_COUNT_MY_CONTENTS);
+            ps.setInt(1, userId);
+            ps.setInt(2, typeMain);
+            
+            
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                int contentsCount = rs.getInt(1);
+
+                return contentsCount;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+    
+    public List<ContentVO> getContentByUserId(int userId, int typeMain, int offset, int limit) {
+    	 Connection co = DataSourceUtil.getConnection();
+    	 
+    	 try {
+    		 PreparedStatement ps = co.prepareStatement(SQL_GET_CONTENT_BY_USER);
+    		 ps.setInt(1, userId);
+    		 ps.setInt(2, typeMain);
+    		 ps.setInt(3, offset);
+             ps.setInt(4, limit);
+             
+    		 ResultSet rs = ps.executeQuery();
+    		 
+    		 List<ContentVO> results = new ArrayList<ContentVO>();
+    		 
+    		 ContentVO vo = new ContentVO();
+    		 
+    		 if (rs.next()) {
+    			 vo.setContentId(rs.getInt(1));
+    			
+                 UserVO userVO = new UserVO();
+                 userVO.setUserId(userId);
+                 vo.setUser(userVO);
+                 vo.setTitle(rs.getString(3));
+                 vo.setContent(rs.getString(4));
+                 vo.setPicUrls(PicsUtil.getPics(rs.getString(5)));
+                 vo.setPraiseCount(rs.getInt(6));
+                 vo.setCommentsCount(rs.getInt(7));
+                 vo.setTypeMain(rs.getInt(10));
+                 vo.setTypeSub(rs.getInt(11));
+                 vo.setCreateAt(TimeUtil.getDate(rs.getLong(12)));
+                 vo.setLastModified(TimeUtil.getDate(rs.getLong(13)));
+                 
+                 results.add(vo);
+             }
+
+             return results;
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+
+         return new ArrayList<ContentVO>();
+      }
 
     private static final String SQL_COUNT_CONTENTS_BY_TYPE_MAIN = "SELECT "
             + " COUNT(0) "

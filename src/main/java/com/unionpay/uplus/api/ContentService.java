@@ -12,6 +12,10 @@ public interface ContentService {
     public ContentVO getContent(int contentId);
 
     public List<ContentVO> getContents(int typeMain, int typeSub, int page, int pageSize);
+    
+    public List<ContentVO> getMyContents(int userId, int typeMain, int page, int pageSize);
+    
+    public int getMyContentsCount(int userId, int typeMain);
 
     public List<ContentVO> getContentsByTypeMain(int typeMain, int page, int pageSize);
 
