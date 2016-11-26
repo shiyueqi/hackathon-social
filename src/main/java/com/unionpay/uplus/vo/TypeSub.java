@@ -110,4 +110,43 @@ public class TypeSub {
      * 博客-默认类型
      */
     public static final Integer blogDefaultType = 40;
+
+    /**
+     * 博客-技术类型
+     */
+    public static final Integer blogTechType = 41;
+    public static final String blogTechTypeStr = "技术社区";
+
+    /**
+     * 博客-生活类型
+     */
+    public static final Integer blogLifeType = 42;
+    public static final String blogLifeTypeStr = "生活随感";
+
+    /**
+     * 博客-宠物类型
+     */
+    public static final Integer blogPetsType = 43;
+    public static final String blogPetsTypeStr = "宠物天地";
+
+    /**
+     * 博客-情感类型
+     */
+    public static final Integer blogPhotosType = 44;
+    public static final String blogPhotosTypeStr = "摄影";
+
+    /**
+     * 博客-杂谈类型
+     */
+    public static final Integer blogFilmsType = 45;
+    public static final String blogFilmsTypeStr = "电影";
+
+    public static final Set<Integer> blogTypes = new HashSet<Integer>();
+    static {
+        blogTypes.add(blogTechType);
+        blogTypes.add(blogLifeType);
+        blogTypes.add(blogPetsType);
+        blogTypes.add(blogPhotosType);
+        blogTypes.add(blogFilmsType);
+    }
 }
