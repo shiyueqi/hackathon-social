@@ -37,17 +37,23 @@ public class QaResource {
             , @Context HttpServletRequest request) {
         ContentsVO contentsVO = new ContentsVO();
 
-        if(!TypeSub.qaTypes.contains(typeSub)) {
-            typeSub = TypeSub.qaDefaultType;
+        List<ContentVO> contentVOs;
+        int contentsCount = 0;
+        if(!TypeSub.qaTypes.contains(typeSub) || typeSub == 0) {
+            contentVOs = contentService.getContentsByTypeMain(
+                    TypeMain.qaType
+                    , pageNum
+                    , pageSize);
+            contentsCount = contentService.getContentsCountByTypeMain(TypeMain.qaType);
+        } else {
+            contentVOs = contentService.getContents(
+                    TypeMain.qaType
+                    , typeSub
+                    , pageNum
+                    , pageSize);
+            contentsCount = contentService.getContentsCount(TypeMain.qaType
+                    , typeSub);
         }
-
-        List<ContentVO> contentVOs = contentService.getContents(
-                TypeMain.qaType
-                , typeSub
-                , pageNum
-                , pageSize);
-            int contentsCount = contentService.getContentsCount(TypeMain.qaType
-                , typeSub);
 
         for(ContentVO contentVO : contentVOs) {
             UserVO userVO = userService.getUser(contentVO.getUser().getUserId());
@@ -76,7 +82,7 @@ public class QaResource {
     @POST
     @Path("/")
     @Produces("application/json;charset=UTF-8")
-    public CodeVO createActivity(@FormParam(value = "userId")int userId
+    public CodeVO createQa(@FormParam(value = "userId")int userId
             , @FormParam(value = "title")String title
             , @FormParam(value = "content")String content
             , @FormParam(value = "pics")String pics
@@ -111,7 +117,7 @@ public class QaResource {
     @POST
     @Path("/{qaId}")
     @Produces("application/json;charset=UTF-8")
-    public CodeVO praiseActivity(@PathParam(value = "qaId")int qaId) {
+    public CodeVO praiseQa(@PathParam(value = "qaId")int qaId) {
 
         boolean res = contentService.praiseContent(qaId);
 
