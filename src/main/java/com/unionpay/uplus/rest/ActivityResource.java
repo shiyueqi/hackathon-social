@@ -145,7 +145,13 @@ public class ActivityResource {
     @Path("/{activityId}/registries")
     @Produces("application/json;charset=UTF-8")
     public List<ActivityRegVO> queryActivity(@PathParam(value = "activityId") int activityId) {
-    	return actService.queryActivity(activityId);
+    	List<ActivityRegVO> activityRegVOs = actService.queryActivity(activityId);
+
+        for(ActivityRegVO activityRegVO : activityRegVOs) {
+            activityRegVO.setUser(userService.getUser(activityRegVO.getUser().getUserId()));
+        }
+
+        return activityRegVOs;
     }
     
     @POST
